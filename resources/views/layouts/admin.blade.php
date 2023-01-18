@@ -86,11 +86,12 @@
         })
         .then((willDelete) => {
         if (willDelete) {
-            swal("Poof! Your imaginary file has been deleted!", {
-            icon: "success",
-            });
+            // swal("Poof! Your imaginary file has been deleted!", {
+            // icon: "success",
+            // });
+            window.location.href = link;
         } else {
-            swal("Your imaginary file is safe!");
+            swal("Safe Data!");
         }
         });
     });
