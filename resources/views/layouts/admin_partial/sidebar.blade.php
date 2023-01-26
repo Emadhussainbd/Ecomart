@@ -1,4 +1,4 @@
-<aside class="main-sidebar sidebar-dark-primary elevation-4">
+<aside class="main-sidebar sidebar-dark-primary elevation-4 slimScrollBar" style="overflow-y: scroll;">
     <!-- Brand Logo -->
     <a href="{{ route('admin.home') }}" class="brand-link">
       <span class="brand-text font-weight-light">Ecomart Admin Panel</span>
@@ -12,7 +12,7 @@
           <img src="https://cdn.pixabay.com/photo/2014/04/03/11/47/avatar-312160__340.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="{{ route('admin.home') }}" class="d-block">{{ Auth::user()->name }}</a>
+          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 

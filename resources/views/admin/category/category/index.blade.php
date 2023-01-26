@@ -30,7 +30,7 @@
               </div>
               <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
+                    <table id="example1" class="table table-bordered table-striped table-sm">
                     <thead>
                     <tr>
                         <th>SL</th>
@@ -46,12 +46,9 @@
                         <td>{{ $row->category_name }}</td>
                         <td>{{ $row->category_slug }}</td>
                         <td>
-                            <a href="#" class="btn btn-info btn-sm edit" data-toggle="modal" data-target="editModal">
-                              <i class="fa-solid fa-edit"></i></a>
-                            <a href="{{ route('category.delete',$row->id)}}" class="btn btn-danger btn-sm" id="delete"><i class="fa-solid fa-trash"></i>
-                              </a>
-                            
-                        </td>
+                      	<a href="#" class="btn btn-info btn-sm edit" data-id="{{ $row->id }}" data-toggle="modal" data-target="#editModal" ><i class="fas fa-edit"></i></a>
+                      	<a href="{{ route('category.delete',$row->id) }}" class="btn btn-danger btn-sm" id="delete"><i class="fas fa-trash"></i></a>
+                      </td>
                     </tr>
                     @endforeach
                     </tbody>
@@ -64,8 +61,7 @@
 </<section>
 </div>
 
-<!-- Category Form Modal -->
-<!-- Modal -->
+{{-- category insert modal --}}
 <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -75,16 +71,26 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
-       <form action="{{route('category.store') }}" method="Post">
-        @csrf
+      <form action="{{ route('category.store') }}" method="Post" enctype="multipart/form-data">
+      	@csrf
       <div class="modal-body">
-  <div class="mb-3">
-    <label for="category_name" class="form-label">Category Name</label>
-    <input type="text" class="form-control" id="category_name" name="category_name" require="">
-    <div id="emailHelp" class="form-text">This is your main category</div>
-  </div>
-   
+          <div class="form-group">
+            <label for="category_name">Category Name</label>
+            <input type="text" class="form-control" id="category_name" name="category_name" required="">
+            <small id="emailHelp" class="form-text text-muted">This is your main category</small>
+          </div> 
+          <div class="form-group">
+            <label for="category_name">Category Icon</label>
+            <input type="file" class="dropify" id="icon" name="icon" required="">
+          </div>  
+          <div class="form-group">
+            <label for="category_name">Show on Homepage</label>
+           <select class="form-control" name="home_page">
+             <option value="1">Yes</option>
+             <option value="0">No</option>
+           </select>
+            <small id="emailHelp" class="form-text text-muted">If yes it will be show on your home page</small>
+          </div>  
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
@@ -95,8 +101,7 @@
   </div>
 </div>
 
-<!-- edit Modal -->
-
+{{-- edit modal --}}
 <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -107,12 +112,13 @@
         </button>
       </div>
 
-       <form action="{{route('category.store') }}" method="Post">
+       <form action="{{route('category.update') }}" method="Post">
         @csrf
       <div class="modal-body">
   <div class="mb-3">
     <label for="category_name" class="form-label">Category Name</label>
     <input type="text" class="form-control" id="e_category_name" name="category_name" require="">
+    <input type="hidden" class="form-control" id="e_category_id" name="id">
     <div id="emailHelp" class="form-text">This is your main category</div>
   </div>
    
@@ -125,5 +131,26 @@
     </div>
   </div>
 </div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js" integrity="sha512-STof4xm1wgkfm7heWqFJVn58Hm3EtS31XFaagaa8VMReCXAkQnJZ+jEy8PCC/iT18dFy95WcExNHFTqLyp72eQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!-- <script type="text/javascript">
+   $('.dropify').dropify();
+
+</script> -->
+
+<script type="text/javascript">
+	$('body').on('click','.edit', function(){
+		let cat_id=$(this).data('id');
+    // alert(cat_id);
+		$.get("category/edit/"+cat_id, function(data){
+      // console.log(data)
+			//  $("#modal_body").html(data);
+      $('#e_category_name').val(data.category_name);
+      $('#e_category_id').val(data.id);
+		});   
+	});
+
+</script>
 
 @endsection
